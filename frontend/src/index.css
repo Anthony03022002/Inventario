@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.titulo{
+    text-align: center;
+}
+
+.personaje1{
+    width: 25%;
+}
+.personaje2{
+    width: 25%;
+    padding-left: 30px;
+}
+.personaje3{
+    width: 25%;
+    padding-left: 30px;
+}
+
+.imagen{
+    width: 350px;
+}
+.imagen3{
+    width: 400px;
+    height: 500px;
+}

@@ -1,0 +1,28 @@
+import React from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Inicio } from "./pages/Inicio";
+import { Login } from "./pages/Login";
+import { Archivos } from "./components/Archivos";
+import { Registro } from "./pages/Registro";
+import { RutasPrivadas } from "./pages/RutasPrivadas";
+function App() {
+  return (
+    <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<Navigate to='/Inicio' />} />
+      <Route path='/inicio' element={<Inicio/>} />
+      <Route path='/login' element={<Login/>} />
+      <Route path='/registro' element={<Registro/>} />
+
+      <Route path='/archivos' element={
+        <RutasPrivadas>
+          <Archivos/>
+        </RutasPrivadas>
+      } />
+      
+    </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App
