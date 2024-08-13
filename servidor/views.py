@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
 
+
 @api_view(['POST'])
 def login(request):
     
@@ -48,3 +49,4 @@ def profile(request):
     serializer = UserSerializer(instance=request.user)
     
     return Response(serializer.data, status=status.HTTP_200_OK)
+
