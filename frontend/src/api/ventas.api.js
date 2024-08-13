@@ -2,12 +2,12 @@ import axios from 'axios';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const clientesApi = axios.create({
-    baseURL: `${apiUrl}/clientes/clientes`,
+const comprasApi = axios.create({
+    baseURL: `${apiUrl}/compras/compras`,
 });
 
 
-clientesApi.interceptors.request.use(config => {
+comprasApi.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
     if (token) {
         config.headers.Authorization = `Token ${token}`;
@@ -17,4 +17,4 @@ clientesApi.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-export const obtenerClientes = () => clientesApi.get('/');
+export const obtenerCompras = () => comprasApi.get('/');

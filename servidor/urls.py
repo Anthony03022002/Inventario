@@ -24,4 +24,9 @@ urlpatterns = [
     re_path('register', views.register),
     re_path('profile', views.profile),
     path('', include('clientes.urls')),
+    path('', include('productos.urls')),
+    path('', include('compras.urls')),
+    
+     path('api/password-reset/', views.PasswordResetRequestView.as_view(), name='password-reset-request'),
+    path('api/password-reset-confirm/<str:uidb64>/<str:token>/', views.PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
 ]

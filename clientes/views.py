@@ -13,3 +13,7 @@ class ClientesView(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]  
     permission_classes = [IsAuthenticated]
     
+    def get_queryset(self):
+        user = self.request.user
+        return Clientes.objects.filter(user=user)
+    

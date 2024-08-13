@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 class Clientes(models.Model):
     cedula = models.BigIntegerField()
@@ -7,7 +7,7 @@ class Clientes(models.Model):
     apellido = models.CharField(max_length=150)
     email = models.EmailField(max_length=120)
     celular = models.CharField(max_length=20)
-    
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     class Meta:
         db_table = 'clientes'
         

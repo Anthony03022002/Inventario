@@ -5,6 +5,8 @@ import { Login } from "./pages/Login";
 import { Archivos } from "./components/Archivos";
 import { Registro } from "./pages/Registro";
 import { RutasPrivadas } from "./pages/RutasPrivadas";
+import { Productos } from "./components/Productos";
+import { Ventas } from "./components/Ventas";
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +21,19 @@ function App() {
           <Archivos/>
         </RutasPrivadas>
       } />
+
+      <Route path='/productos' element={
+        <RutasPrivadas>
+          <Productos/>
+        </RutasPrivadas>
+      }
+      />
+      <Route path='/ventas' element={
+        <RutasPrivadas>
+          <Ventas/>
+        </RutasPrivadas>
+      }
+      />
       
     </Routes>
     </BrowserRouter>

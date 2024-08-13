@@ -1,13 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const clientesApi = axios.create({
-    baseURL: `${apiUrl}/clientes/clientes`,
+const productosApi = axios.create({
+    baseURL: `${apiUrl}/productos/productos`,
 });
 
-
-clientesApi.interceptors.request.use(config => {
+productosApi.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
     if (token) {
         config.headers.Authorization = `Token ${token}`;
@@ -17,4 +16,4 @@ clientesApi.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-export const obtenerClientes = () => clientesApi.get('/');
+export const obtenerProductos = () => productosApi.get('/')
