@@ -7,6 +7,7 @@ import { Registro } from "./pages/Registro";
 import { RutasPrivadas } from "./pages/RutasPrivadas";
 import { Productos } from "./components/Productos";
 import { Ventas } from "./components/Ventas";
+import { VentasForm } from "./components/VentasForm";
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +32,12 @@ function App() {
       <Route path='/ventas' element={
         <RutasPrivadas>
           <Ventas/>
+        </RutasPrivadas>
+      }
+      />
+      <Route path='/crear-ventas' element={
+        <RutasPrivadas>
+          <VentasForm/>
         </RutasPrivadas>
       }
       />
