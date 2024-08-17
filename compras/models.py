@@ -8,9 +8,8 @@ from django.contrib.auth.models import User
 class Compras(models.Model):
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE )
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    cantidad = models.PositiveIntegerField(default=1)
     fecha = models.DateField()
-    
+    cantidad = models.PositiveIntegerField()
     usuario = models.ForeignKey(User,blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
@@ -19,3 +18,6 @@ class Compras(models.Model):
 
     def __str__(self):
         return f'{self.cliente.nombre} - {self.producto.nombre}'
+    
+
+    

@@ -1,65 +1,54 @@
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { CerrarSesion } from "../pages/CerrarSesion";
-import { obtenerCompras } from "../api/ventas.api";
-import { obtenerClientes } from "../api/clientes.api";
+import { obtenerVentas } from "../api/ventas.api";
 import { obtenerProductos } from "../api/productos.api";
+import { obtenerClientes } from "../api/clientes.api";
+import { Link } from "react-router-dom";
 
 export function Ventas() {
   const [ventas, setVentas] = useState([]);
-  const [clientes, setClientes] = useState([]);
-  const [productos, setProductos] = useState([]);
-  const navigate = useNavigate();
+  const [clientes, setClientes] = useState({});
+  const [productos, setProductos] = useState({});
 
   useEffect(() => {
-    async function cargarDatos() {
-      try {
-        const resVentas = await obtenerCompras();
-        const resClientes = await obtenerClientes();
-        const resProductos = await obtenerProductos();
-        setVentas(resVentas.data);
-        setClientes(resClientes.data);
-        setProductos(resProductos.data);
-      } catch (error) {
-        console.error('Error al cargar datos:', error);
+      async function cargarDatos() {
+          try {
+              const ventasRes = await obtenerVentas();
+              setVentas(ventasRes.data);
+
+              const clientesRes = await obtenerClientes();
+              const clientesMap = clientesRes.data.reduce((acc, cliente) => {
+                  acc[cliente.id] = cliente;
+                  return acc;
+              }, {});
+              setClientes(clientesMap);
+              const productosRes = await obtenerProductos();
+              const productosMap = productosRes.data.reduce((acc, producto) => {
+                  acc[producto.id] = producto;
+                  return acc;
+              }, {});
+              setProductos(productosMap);
+              
+          } catch (error) {
+              console.error("Error al cargar datos:", error);
+          }
       }
-    }
-    cargarDatos();
+
+      cargarDatos();
   }, []);
 
-  const obtenerClienteNombre = (id) => {
-    const cliente = clientes.find(c => c.id === id);
-    return cliente ? `${cliente.nombre} ${cliente.apellido}` : 'Desconocido';
-  };
-
-  const obtenerProductoDetalles = (id) => {
-    const producto = productos.find(p => p.id === id);
-    return producto ? `${producto.nombre} - $${producto.precio}` : 'Desconocido';
-  };
-
   return (
-    <div>
-      <button onClick={() => navigate('/crear-ventas')}>
-        Crear Venta
-      </button>
-      <CerrarSesion />
-      <h1>Ventas</h1>
       <div>
-        {ventas.length > 0 ? (
-          ventas.map((venta) => (
-            <div key={venta.id}>
-              <p><strong>Venta:</strong> #{venta.id}</p>
-              <p><strong>Nombre Cliente:</strong> {obtenerClienteNombre(venta.cliente)}</p>
-              <p><strong>Detalles Producto:</strong> {obtenerProductoDetalles(venta.producto)}</p>
-              <p><strong>Cantidad del Producto:</strong> {venta.cantidad}</p>
-              <p><strong>Fecha:</strong> {venta.fecha}</p>
-              <hr />
-            </div>
-          ))
-        ) : (
-          <p>No hay ventas disponibles.</p>
-        )}
+        <Link to='/crear-ventas'>Generar Venta</Link>
+        <h1>Ventas</h1>
+          {ventas.map((venta) => (
+              <div key={venta.id}>
+                  <p>ID: {venta.id}</p>
+                  <p>Cliente: {clientes[venta.cliente]?.nombre || "Cargando..."} {clientes[venta.cliente]?.apellido || ""}</p>
+                  <p>Producto: {productos[venta.producto]?.nombre || "Cargando..."} - ${productos[venta.producto]?.precio || ""}</p>
+                  <p>Cantidad: {venta.cantidad}</p>
+                  <hr />
+              </div>
+          ))}
       </div>
-    </div>
   );
 }

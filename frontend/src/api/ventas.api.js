@@ -17,6 +17,6 @@ comprasApi.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-export const obtenerCompras = () => comprasApi.get('/');
+export const obtenerVentas = () => comprasApi.get('/');
 
 export const crearVenta = (ventas) => comprasApi.post('/', ventas);

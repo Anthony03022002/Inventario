@@ -1,69 +1,88 @@
-import { useState, useEffect } from 'react';
-import { crearVenta } from '../api/ventas.api';
-import { obtenerClientes } from "../api/clientes.api";
+import { useState, useEffect } from "react";
+import { crearVenta } from "../api/ventas.api";
 import { obtenerProductos } from "../api/productos.api";
-import { perfilUsuario } from "../api/perfil";
+import { obtenerClientes } from "../api/clientes.api";
+import { Link } from "react-router-dom";
 
 export function VentasForm() {
-  const [venta, setVenta] = useState({
-    cliente: '',
-    producto: '',
-    cantidad: 1,
-    fecha: '',
-    usuario: '', 
-  });
-
-  const [clientes, setClientes] = useState([]);
   const [productos, setProductos] = useState([]);
+  const [clientes, setClientes] = useState([]);
+  const [compras, setCompras] = useState([{ productoId: "", cantidad: 1 }]);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState("");
+  const [fechaCompra, setFechaCompra] = useState("");
+  const token = localStorage.getItem('token');  
+
 
   useEffect(() => {
-    const fetchClientes = async () => {
-      const response = await obtenerClientes();
-      setClientes(response.data);
-    };
-    const fetchProductos = async () => {
-      const response = await obtenerProductos();
-      setProductos(response.data);
-    };
-    const fetchUsuario = async () => {
+    async function cargarDatos() {
       try {
-        const usuarioData = await perfilUsuario();
-        setVenta((prevVenta) => ({
-          ...prevVenta,
-          usuario: usuarioData.id, 
-        }));
+        const productosRes = await obtenerProductos();
+        setProductos(productosRes.data);
+
+        const clientesRes = await obtenerClientes();
+        setClientes(clientesRes.data);
       } catch (error) {
-        console.error('Error al obtener el perfil del usuario:', error);
+        console.error("Error al cargar datos:", error);
       }
-    };
-    fetchClientes();
-    fetchProductos();
-    fetchUsuario();
+    }
+    cargarDatos();
   }, []);
 
-  const handleChange = (e) => {
-    setVenta({
-      ...venta,
-      [e.target.name]: e.target.value,
-    });
+  const handleCompraChange = (index, event) => {
+    const { name, value } = event.target;
+    const nuevasCompras = [...compras];
+    nuevasCompras[index][name] = value;
+    setCompras(nuevasCompras);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Datos de la venta:', venta); // Verificar los datos antes de enviar
-    try {
-      const response = await crearVenta(venta);
-      console.log('Venta creada:', response.data);
-    } catch (error) {
-      console.error('Error creando la venta:', error);
-    }
+  const agregarCompra = () => {
+    setCompras([...compras, { productoId: "", cantidad: 1 }]);
   };
+
+  const eliminarCompra = (index) => {
+    const nuevasCompras = compras.filter((_, i) => i !== index);
+    setCompras(nuevasCompras);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!clienteSeleccionado) {
+        alert("Por favor, selecciona un cliente.");
+        return;
+    }
+
+    compras.forEach((compra) => {
+        const data = {
+            cliente: clienteSeleccionado,
+            producto: compra.productoId,
+            cantidad: compra.cantidad,
+            fecha: fechaCompra,
+        };
+        console.log("Datos enviados:", data);
+        crearVenta(data)
+            .then((response) => {
+                alert("Compra realizada con éxito");
+                setCompras([{ productoId: "", cantidad: 1 }]);
+                setClienteSeleccionado("");
+            })
+            .catch((error) => {
+                console.error("Error al enviar la compra:", error);
+            });
+    });
+};
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Cliente</label>
-        <select name="cliente" value={venta.cliente} onChange={handleChange}>
+      <Link to="/ventas">Ventas</Link>
+
+      <div style={{ marginBottom: "1rem" }}>
+        <label htmlFor="cliente">Cliente:</label>
+        <select
+          id="cliente"
+          value={clienteSeleccionado}
+          onChange={(event) => setClienteSeleccionado(event.target.value)}
+          required
+        >
           <option value="">Seleccione un cliente</option>
           {clientes.map((cliente) => (
             <option key={cliente.id} value={cliente.id}>
@@ -72,41 +91,57 @@ export function VentasForm() {
           ))}
         </select>
       </div>
-
-      <div>
-        <label>Producto</label>
-        <select name="producto" value={venta.producto} onChange={handleChange}>
-          <option value="">Seleccione un producto</option>
-          {productos.map((producto) => (
-            <option key={producto.id} value={producto.id}>
-              {producto.nombre} - ${producto.precio}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label>Cantidad</label>
-        <input
-          type="number"
-          name="cantidad"
-          value={venta.cantidad}
-          onChange={handleChange}
-          min="1"
-        />
-      </div>
-
-      <div>
-        <label>Fecha</label>
+      <div style={{ marginBottom: "1rem" }}>
+        <label htmlFor="fechaCompra">Fecha de la compra:</label>
         <input
           type="date"
-          name="fecha"
-          value={venta.fecha}
-          onChange={handleChange}
+          id="fechaCompra"
+          value={fechaCompra}
+          onChange={(event) => setFechaCompra(event.target.value)}
+          required
         />
       </div>
 
-      <button type="submit">Crear Venta</button>
+      {compras.map((compra, index) => (
+        <div key={index} style={{ marginBottom: "1rem" }}>
+          <select
+            name="productoId"
+            value={compra.productoId}
+            onChange={(event) => handleCompraChange(index, event)}
+            required
+          >
+            <option value="">Seleccione un producto</option>
+            {productos.map((producto) => (
+              <option key={producto.id} value={producto.id}>
+                {producto.nombre}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            name="cantidad"
+            value={compra.cantidad}
+            onChange={(event) => handleCompraChange(index, event)}
+            min="1"
+            required
+            style={{ marginLeft: "1rem" }}
+          />
+          <button
+            type="button"
+            onClick={() => eliminarCompra(index)}
+            style={{ marginLeft: "1rem" }}
+          >
+            Eliminar
+          </button>
+        </div>
+      ))}
+
+      <button type="button" onClick={agregarCompra}>
+        Añadir otro producto
+      </button>
+      <button type="submit" style={{ marginLeft: "1rem" }}>
+        Realizar compra
+      </button>
     </form>
   );
 }

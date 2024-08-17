@@ -15,6 +15,9 @@ class comprasView(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]  
     permission_classes = [IsAuthenticated]
     
+    def perform_create(self, serializer):
+        serializer.save(usuario=self.request.user)
+    
     def get_queryset(self):
         user = self.request.user
         return Compras.objects.filter(usuario=user)
