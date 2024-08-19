@@ -69,33 +69,35 @@ export function VentasForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!clienteSeleccionado) {
-      alert("Por favor, selecciona un cliente.");
-      return;
+        alert("Por favor, selecciona un cliente.");
+        return;
     }
+    const promesas = compras.map((compra) => {
+        const data = {
+            cliente: clienteSeleccionado,
+            producto: compra.productoId,
+            cantidad: compra.cantidad,
+            fecha: fechaCompra,
+        };
+        console.log("Datos enviados:", data);
+        return crearVenta(data);
+    });
 
-    compras.forEach((compra) => {
-      const data = {
-        cliente: clienteSeleccionado,
-        producto: compra.productoId,
-        cantidad: compra.cantidad,
-        fecha: fechaCompra,
-      };
-      console.log("Datos enviados:", data);
-      crearVenta(data)
-        .then((response) => {
-          alert("Compra realizada con éxito");
-          const clienteNombre = clientes.find(
-            (c) => c.id === parseInt(clienteSeleccionado)
-          ).nombre;
-          generarFacturaPDF(clienteNombre, compras, productos);
-          setCompras([]);
-          setClienteSeleccionado("");
+    Promise.all(promesas)
+        .then((responses) => {
+            alert("Compra realizada con éxito");
+            const clienteNombre = clientes.find(
+                (c) => c.id === parseInt(clienteSeleccionado)
+            ).nombre;
+            generarFacturaPDF(clienteNombre, compras, productos);
+            setCompras([]);
+            setClienteSeleccionado("");
         })
         .catch((error) => {
-          console.error("Error al enviar la compra:", error);
+            console.error("Error al enviar la compra:", error);
         });
-    });
-  };
+};
+
 
   return (
     <form onSubmit={handleSubmit}>

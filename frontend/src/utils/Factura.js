@@ -3,83 +3,110 @@ import "jspdf-autotable";
 
 export const generarFacturaPDF = (clienteNombre, compras, productos) => {
     const doc = new jsPDF();
-  
-    // Encabezado del PDF
-    doc.setFontSize(12);
+
+    // Configurar la información de la empresa
+    const empresaInfo = {
+        nombre: "NOMBRE DE LA EMPRESA",
+        direccion: "Dirección de la Empresa",
+        telefono: "Teléfono: (000) 123-4567",
+        correo: "Correo: info@empresa.com"
+    };
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const startX = 20;
+    const startY = 30;  // Ajusta la posición Y de los cuadros
+    const lineHeight = 5;  // Ajusta el espacio entre las líneas
+    const cornerRadius = 5;  // Radio de las esquinas redondeadas
+
+    // Agregar el nombre de la empresa centrado y en negrita arriba de todo
+    doc.setFontSize(18);
     doc.setFont("Helvetica", "bold");
-    doc.text("Nombre de la Empresa", 20, 20);
-    doc.setFontSize(10);
-    doc.text("Dirección de la Empresa", 20, 26);
-    doc.text("Teléfono: (000) 123-4567", 20, 32);
-    doc.text("Correo: info@empresa.com", 20, 38);
-    doc.text("Website: www.empresa.com", 20, 44);
-  
-    // Logo de la empresa (si hay uno)
-    // doc.addImage('path_to_logo', 'PNG', 170, 10, 30, 30); // Asegúrate de que la ruta y formato sean correctos
-  
-    const fechaActual = new Date().toLocaleDateString();
-    const numeroFactura = Math.floor(Math.random() * 1000000);  
-    doc.text(`Factura No: ${numeroFactura}`, 120, 20);
-    doc.text(`Fecha: ${fechaActual}`, 120, 26);
-    doc.text("Clave de Acceso:", 120, 32);
-    doc.text("012345678901234567890123456789012345678901234567890123456789", 120, 38, { maxWidth: 80 });
-  
-    doc.setFontSize(14);
-    doc.setFont("Helvetica", "bold");
-    doc.text("Datos del Cliente", 20, 60);
+    doc.text(empresaInfo.nombre, pageWidth / 2, 15, { align: 'center' });
+
+    // Dibujar un rectángulo con esquinas redondeadas alrededor de la información de la empresa
+    const boxWidth = 90;
+    const boxHeight = 25;
+    doc.roundedRect(startX - 5, startY - 8, boxWidth, boxHeight, cornerRadius, cornerRadius);
+
+    // Agregar el resto de la información de la empresa
     doc.setFontSize(12);
     doc.setFont("Helvetica", "normal");
-    doc.text(`Nombre: ${clienteNombre}`, 20, 66);
-  
-    // Encabezado de tabla
+    doc.text(empresaInfo.direccion, startX, startY);  // Ajusta la posición Y
+    doc.text(empresaInfo.telefono, startX, startY + lineHeight);
+    doc.text(empresaInfo.correo, startX, startY + lineHeight * 2);
+
+    // Información de la factura envuelta en un cuadro con esquinas redondeadas
+    const fechaActual = new Date().toLocaleDateString();
+    const numeroFactura = Math.floor(Math.random() * 1000000);
+
+    const facturaX = 120;
+    const facturaY = 30;
+    const facturaBoxWidth = 90;
+    const facturaBoxHeight = 40;
+
+    doc.roundedRect(facturaX - 5, facturaY - 10, facturaBoxWidth, facturaBoxHeight, cornerRadius, cornerRadius);
+    doc.setFont("Helvetica", "normal");
+    doc.text(`Factura No: ${numeroFactura}`, facturaX, facturaY);
+    doc.text(`Fecha: ${fechaActual}`, facturaX, facturaY + 6);
+    doc.text("Clave de Acceso:", facturaX, facturaY + 12);
+    doc.text("012345678901234567890123456789012345678901234567890123456789", facturaX, facturaY + 18, { maxWidth: 75 });
+
+    // Datos del cliente envueltos en un cuadro con esquinas redondeadas
+    doc.setFontSize(14);
+    doc.setFont("Helvetica", "bold");
+    doc.text("Datos del Cliente", startX, 69);
+    doc.setFontSize(12);
+    doc.setFont("Helvetica", "normal");
+    doc.text(`Nombre: ${clienteNombre}`, startX, 74);
+
+    const clienteBoxWidth = 80;
+    const clienteBoxHeight = 20;
+    doc.roundedRect(startX - 5, 60, clienteBoxWidth, clienteBoxHeight, cornerRadius, cornerRadius);
+
+    // Tabla de compras
     const head = [['Producto', 'Cantidad', 'Precio Unitario', 'Total']];
-  
     const body = compras.map(compra => {
-      const producto = productos.find(producto => producto.id === parseInt(compra.productoId));
-      const productoNombre = producto?.nombre || "Producto desconocido";
-      const precioUnitario = parseFloat(producto?.precio) || 0;  
-      const totalProducto = precioUnitario * compra.cantidad;
-      return [productoNombre, compra.cantidad, `$${precioUnitario.toFixed(2)}`, `$${totalProducto.toFixed(2)}`];
+        const producto = productos.find(producto => producto.id === parseInt(compra.productoId));
+        const productoNombre = producto?.nombre || "Producto desconocido";
+        const precioUnitario = parseFloat(producto?.precio) || 0;
+        const totalProducto = precioUnitario * compra.cantidad;
+        return [productoNombre, compra.cantidad, `$${precioUnitario.toFixed(2)}`, `$${totalProducto.toFixed(2)}`];
     });
-  
-    // Generar la tabla
+
     doc.autoTable({
-      head: head,
-      body: body,
-      startY: 90,
-      theme: 'striped',
-      styles: { cellPadding: 2, fontSize: 10, halign: 'center' },
-      headStyles: { fillColor: [100, 100, 255] },
-      margin: { top: 20 }
+        head: head,
+        body: body,
+        startY: 90,
+        theme: 'striped',
+        styles: { cellPadding: 2, fontSize: 10, halign: 'center' },
+        headStyles: { fillColor: [100, 100, 255] },
+        margin: { top: 20 }
     });
-  
-    // Calcular el total de la compra
+
+    // Cálculo de totales
     const totalCompra = body.reduce((sum, row) => sum + parseFloat(row[3].replace('$', '')), 0);
-    const iva = totalCompra * 0.12; // Calcular el IVA (12%)
+    const iva = totalCompra * 0.12;
     const totalConIva = totalCompra + iva;
-  
+
     doc.setFontSize(12);
     doc.text(`Subtotal: $${totalCompra.toFixed(2)}`, 150, doc.lastAutoTable.finalY + 10);
     doc.text(`IVA 12%: $${iva.toFixed(2)}`, 150, doc.lastAutoTable.finalY + 16);
     doc.text(`Total: $${totalConIva.toFixed(2)}`, 150, doc.lastAutoTable.finalY + 22);
-  
-    // Información adicional
-    doc.setFontSize(10);
-    doc.text("Términos y condiciones:", 20, doc.lastAutoTable.finalY + 40);
-    doc.text("1. Los productos no son retornables.", 20, doc.lastAutoTable.finalY + 46);
-    doc.text("2. El pago debe realizarse en un plazo de 30 días.", 20, doc.lastAutoTable.finalY + 52);
-    doc.text("3. Para cualquier consulta, por favor contacte con nosotros.", 20, doc.lastAutoTable.finalY + 58);
-  
-    // Guardar el PDF con un nombre basado en el cliente y número de factura
+
+    // Guardar PDF
     doc.save(`factura_${clienteNombre}_${numeroFactura}.pdf`);
-    const xml = generarXML(clienteNombre, compras, productos);
-    descargarXML(xml, clienteNombre, numeroFactura);
 };
+
+
+
+// const xml = generarXML(clienteNombre, compras, productos);
+// descargarXML(xml, clienteNombre, numeroFactura);
+
 const generarXML = (clienteNombre, compras, productos) => {
-    // Generar el número de factura
+
     const numeroFactura = Math.floor(Math.random() * 1000000);
 
-    // Construir el XML
+
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<Factura>\n`;
     xml += `  <Numero>${numeroFactura}</Numero>\n`;
@@ -102,7 +129,7 @@ const generarXML = (clienteNombre, compras, productos) => {
         xml += `    </Producto>\n`;
     });
 
-    // Calcular totales
+
     const totalCompra = compras.reduce((sum, compra) => {
         const producto = productos.find(producto => producto.id === parseInt(compra.productoId));
         const precioUnitario = parseFloat(producto?.precio) || 0;
