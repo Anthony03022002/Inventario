@@ -1,8 +1,6 @@
-import { useNavigate, Link } from "react-router-dom";
-import { Perfil } from "../pages/Perfil";
+import { Link } from "react-router-dom";
 import { obtenerClientes } from "../api/clientes.api";
 import { useEffect, useState } from "react";
-import { CerrarSesion } from "../pages/CerrarSesion";
 export function Archivos() {
   const [clientes, setClientes] = useState([]);
 
@@ -16,15 +14,8 @@ export function Archivos() {
   
   return (
     <div>
-    <CerrarSesion/>
-      <button>
-        <Link to= '/productos'>Productos</Link>
-      </button>
-      <button>
-        <Link to= '/ventas'>Ventas</Link>
-      </button>
-      <Perfil />
       <div>
+        <h1 className="text-center">Clientes</h1>
         {clientes.map((cliente) => (
           <div key={cliente.id}>
             <p>

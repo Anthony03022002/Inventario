@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { obtenerProductos } from "../api/productos.api";
-import { CerrarSesion } from "../pages/CerrarSesion";
 import { Link } from "react-router-dom";
 export function Productos() {
     const [productos, setProductos] = useState([]); 
@@ -14,7 +13,6 @@ export function Productos() {
   return (
     <div>
       <Link to='/crear-xml'>Subir XML</Link>
-      <CerrarSesion/>
         <h1>Productos</h1>
       {productos.map((producto)=>(
         <div key={producto.id}>
