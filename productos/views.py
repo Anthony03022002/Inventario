@@ -36,6 +36,7 @@ class UploadXMLView(APIView):
                     'nombre': product.find('nombre').text,
                     'descripcion': product.find('descripcion').text,
                     'precio': product.find('precio').text,
+                    'cantidad_ingresar': product.find('cantidad_ingresar').text,
                     'stock': product.find('stock').text,
                     'codigo': product.find('codigo').text,
                     'categoria': product.find('categoria').text,

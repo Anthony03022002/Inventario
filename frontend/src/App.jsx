@@ -8,8 +8,11 @@ import { RutasPrivadas } from "./pages/RutasPrivadas";
 import { Productos } from "./components/Productos";
 import { Ventas } from "./components/Ventas";
 import { VentasForm } from "./components/VentasForm";
+import { ProductosXML } from "./components/ProductosXML";
 import { ProductosForm } from "./components/ProductosForm";
 import { Navegacion } from "./pages/Navegacion";
+import { Perfil } from "./pages/Perfil";
+import { ClientesForm } from "./components/ClientesForm";
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +26,12 @@ function App() {
         <RutasPrivadas>
           <Navegacion/>
           <Archivos/>
+        </RutasPrivadas>
+      } />
+      <Route path='/crear-clientes' element={
+        <RutasPrivadas>
+          <Navegacion/>
+          <ClientesForm/>
         </RutasPrivadas>
       } />
 
@@ -51,8 +60,21 @@ function App() {
       <Route path='/crear-xml' element={
         <RutasPrivadas>
           <Navegacion/>
-
+          <ProductosXML/>
+        </RutasPrivadas>
+      }
+      />
+      <Route path='/crear-productos' element={
+        <RutasPrivadas>
+          <Navegacion/>
           <ProductosForm/>
+        </RutasPrivadas>
+      }
+      />
+      <Route path='/perfil' element={
+        <RutasPrivadas>
+          <Navegacion/>
+          <Perfil/>
         </RutasPrivadas>
       }
       />

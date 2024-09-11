@@ -61,6 +61,16 @@ export function Navegacion() {
                 <ul className="dropdown-menu">
                   <li>
                     <button
+                    onClick={()=>{
+                      navigate('/perfil')
+                    }}
+                      className="dropdown-item"
+                    >
+                      Perfil
+                    </button>
+                  </li>
+                  <li>
+                    <button
                       onClick={handleLogout}
                       className="dropdown-item"
                       href="#"

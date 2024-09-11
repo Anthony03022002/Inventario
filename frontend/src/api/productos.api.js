@@ -16,4 +16,6 @@ productosApi.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-export const obtenerProductos = () => productosApi.get('/')
+export const obtenerProductos = () => productosApi.get('/');
+
+export const crearProducto = (producto) => productosApi.post('/', producto);

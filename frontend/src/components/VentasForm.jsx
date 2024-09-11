@@ -69,156 +69,177 @@ export function VentasForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!clienteSeleccionado) {
-        alert("Por favor, selecciona un cliente.");
-        return;
+      alert("Por favor, selecciona un cliente.");
+      return;
     }
     const promesas = compras.map((compra) => {
-        const data = {
-            cliente: clienteSeleccionado,
-            producto: compra.productoId,
-            cantidad: compra.cantidad,
-            fecha: fechaCompra,
-        };
-        console.log("Datos enviados:", data);
-        return crearVenta(data);
+      const data = {
+        cliente: clienteSeleccionado,
+        producto: compra.productoId,
+        cantidad: compra.cantidad,
+        fecha: fechaCompra,
+      };
+      console.log("Datos enviados:", data);
+      return crearVenta(data);
     });
 
     Promise.all(promesas)
-        .then((responses) => {
-            alert("Compra realizada con éxito");
-            const clienteNombre = clientes.find(
-                (c) => c.id === parseInt(clienteSeleccionado)
-            ).nombre;
-            generarFacturaPDF(clienteNombre, compras, productos);
-            setCompras([]);
-            setClienteSeleccionado("");
-        })
-        .catch((error) => {
-            console.error("Error al enviar la compra:", error);
-        });
-};
-
+      .then((responses) => {
+        alert("Compra realizada con éxito");
+        const clienteNombre = clientes.find(
+          (c) => c.id === parseInt(clienteSeleccionado)
+        ).nombre;
+        generarFacturaPDF(clienteNombre, compras, productos);
+        setCompras([]);
+        setClienteSeleccionado("");
+      })
+      .catch((error) => {
+        console.error("Error al enviar la compra:", error);
+      });
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Link to="/ventas">Ventas</Link>
-
-      <div style={{ marginBottom: "1rem" }}>
-        <label htmlFor="cliente">Cliente:</label>
-        <select
-          id="cliente"
-          value={clienteSeleccionado}
-          onChange={(event) => setClienteSeleccionado(event.target.value)}
-          required
-        >
-          <option value="">Seleccione un cliente</option>
-          {clientes.map((cliente) => (
-            <option key={cliente.id} value={cliente.id}>
-              {cliente.nombre} {cliente.apellido}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div style={{ marginBottom: "1rem" }}>
-        <label htmlFor="fechaCompra">Fecha de la compra:</label>
-        <input
-          type="date"
-          id="fechaCompra"
-          value={fechaCompra}
-          onChange={(event) => setFechaCompra(event.target.value)}
-          required
-        />
+    <div className="container mt-4">
+      <div>
+      <Link to="/ventas" className="btn btn-primary">
+        Volver a Ventas
+      </Link>
       </div>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <label htmlFor="producto">Producto:</label>
-        <select
-          id="producto"
-          value={productoSeleccionado}
-          onChange={(event) => setProductoSeleccionado(event.target.value)}
-        >
-          <option value="">Seleccione un producto</option>
-          {productos.map((producto) => (
-            <option key={producto.id} value={producto.id}>
-              {producto.nombre} - ${producto.precio}
-            </option>
-          ))}
-        </select>
+      <div className="container row border p-3">
+        <h1 className="text-center text-primary">Generar Ventas</h1>
+        <div className="col-md-6">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="cliente" className="form-label">
+                Cliente:
+              </label>
+              <select
+                id="cliente"
+                className="form-select"
+                value={clienteSeleccionado}
+                onChange={(event) => setClienteSeleccionado(event.target.value)}
+                required
+              >
+                <option value="">Seleccione un cliente</option>
+                {clientes.map((cliente) => (
+                  <option key={cliente.id} value={cliente.id}>
+                    {cliente.nombre} {cliente.apellido}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <label htmlFor="cantidad" style={{ marginLeft: "1rem" }}>
-          Cantidad:
-        </label>
-        <input
-          type="number"
-          id="cantidad"
-          value={cantidadSeleccionada}
-          onChange={(event) => setCantidadSeleccionada(event.target.value)}
-          min="1"
-          required
-          style={{ marginLeft: "0.5rem" }}
-        />
+            <div className="mb-3">
+              <label htmlFor="fechaCompra" className="form-label">
+                Fecha de la compra:
+              </label>
+              <input
+                type="date"
+                id="fechaCompra"
+                className="form-control"
+                value={fechaCompra}
+                onChange={(event) => setFechaCompra(event.target.value)}
+                required
+              />
+            </div>
 
-        <button
-          type="button"
-          onClick={agregarCompra}
-          style={{ marginLeft: "1rem" }}
-        >
-          Guardar
-        </button>
+            <div className="mb-3 row">
+              <div className="col-md-8">
+                <label htmlFor="producto" className="form-label">
+                  Producto:
+                </label>
+                <select
+                  id="producto"
+                  className="form-select"
+                  value={productoSeleccionado}
+                  onChange={(event) =>
+                    setProductoSeleccionado(event.target.value)
+                  }
+                >
+                  <option value="">Seleccione un producto</option>
+                  {productos.map((producto) => (
+                    <option key={producto.id} value={producto.id}>
+                      {producto.nombre} - ${producto.precio}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="col-md-4">
+                <label htmlFor="cantidad" className="form-label">
+                  Cantidad:
+                </label>
+                <input
+                  type="number"
+                  id="cantidad"
+                  className="form-control"
+                  value={cantidadSeleccionada}
+                  onChange={(event) =>
+                    setCantidadSeleccionada(event.target.value)
+                  }
+                  min="1"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={agregarCompra}
+            >
+              Agregar producto
+            </button>
+            <button
+              type="submit"
+              className="btn btn-success ms-3"
+              onClick={handleSubmit}
+            >
+              Realizar compra
+            </button>
+          </form>
+        </div>
+
+        {/* Columna derecha: Tabla de productos seleccionados */}
+        <div className="col-md-6">
+          {compras.length > 0 && (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {compras.map((compra, index) => (
+                  <tr key={index}>
+                    <td>
+                      {productos.find(
+                        (producto) =>
+                          producto.id === parseInt(compra.productoId)
+                      )?.nombre || "Producto no seleccionado"}
+                    </td>
+                    <td>{compra.cantidad}</td>
+                    <td>${compra.precio}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => eliminarCompra(index)}
+                      >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
-
-      {compras.length > 0 && (
-        <table
-          style={{
-            marginTop: "1rem",
-            width: "100%",
-            borderCollapse: "collapse",
-          }}
-        >
-          <thead>
-            <tr>
-              <th style={{ border: "1px solid black", padding: "8px" }}>
-                Producto
-              </th>
-              <th style={{ border: "1px solid black", padding: "8px" }}>
-                Cantidad
-              </th>
-              <th style={{ border: "1px solid black", padding: "8px" }}>
-                Precio
-              </th>
-              <th style={{ border: "1px solid black", padding: "8px" }}>
-                Acciones
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {compras.map((compra, index) => (
-              <tr key={index}>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  {productos.find(
-                    (producto) => producto.id === parseInt(compra.productoId)
-                  )?.nombre || "Producto no seleccionado"}
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  {compra.cantidad}
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  ${compra.precio}
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  <button type="button" onClick={() => eliminarCompra(index)}>
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      <button type="submit" style={{ marginTop: "1rem" }}>
-        Realizar compra
-      </button>
-    </form>
+    </div>
   );
 }
