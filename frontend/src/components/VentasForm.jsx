@@ -101,9 +101,9 @@ export function VentasForm() {
   return (
     <div className="container mt-4">
       <div>
-      <Link to="/ventas" className="btn btn-primary">
-        Volver a Ventas
-      </Link>
+        <Link to="/ventas" className="btn btn-primary">
+          Volver a Ventas
+        </Link>
       </div>
 
       <div className="container row border p-3">
@@ -114,20 +114,29 @@ export function VentasForm() {
               <label htmlFor="cliente" className="form-label">
                 Cliente:
               </label>
-              <select
-                id="cliente"
-                className="form-select"
-                value={clienteSeleccionado}
-                onChange={(event) => setClienteSeleccionado(event.target.value)}
-                required
-              >
-                <option value="">Seleccione un cliente</option>
-                {clientes.map((cliente) => (
-                  <option key={cliente.id} value={cliente.id}>
-                    {cliente.nombre} {cliente.apellido}
-                  </option>
-                ))}
-              </select>
+              <div className="input-group">
+                <select
+                  id="cliente"
+                  className="form-select"
+                  value={clienteSeleccionado}
+                  onChange={(event) => setClienteSeleccionado(event.target.value)}
+                  required
+                >
+                  <option value="">Seleccione un cliente</option>
+                  {clientes.map((cliente) => (
+                    <option key={cliente.id} value={cliente.id}>
+                      {cliente.nombre} {cliente.apellido}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => window.open('/crear-clientes', '_blank', 'width=800,height=600')}
+                >
+                  +
+                </button>
+              </div>
             </div>
 
             <div className="mb-3">
@@ -153,9 +162,7 @@ export function VentasForm() {
                   id="producto"
                   className="form-select"
                   value={productoSeleccionado}
-                  onChange={(event) =>
-                    setProductoSeleccionado(event.target.value)
-                  }
+                  onChange={(event) => setProductoSeleccionado(event.target.value)}
                 >
                   <option value="">Seleccione un producto</option>
                   {productos.map((producto) => (
@@ -175,9 +182,7 @@ export function VentasForm() {
                   id="cantidad"
                   className="form-control"
                   value={cantidadSeleccionada}
-                  onChange={(event) =>
-                    setCantidadSeleccionada(event.target.value)
-                  }
+                  onChange={(event) => setCantidadSeleccionada(event.target.value)}
                   min="1"
                   required
                 />
@@ -201,7 +206,6 @@ export function VentasForm() {
           </form>
         </div>
 
-        {/* Columna derecha: Tabla de productos seleccionados */}
         <div className="col-md-6">
           {compras.length > 0 && (
             <table className="table">
@@ -218,8 +222,7 @@ export function VentasForm() {
                   <tr key={index}>
                     <td>
                       {productos.find(
-                        (producto) =>
-                          producto.id === parseInt(compra.productoId)
+                        (producto) => producto.id === parseInt(compra.productoId)
                       )?.nombre || "Producto no seleccionado"}
                     </td>
                     <td>{compra.cantidad}</td>
