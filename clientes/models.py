@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Clientes(models.Model):
     identificacion= models.CharField(max_length=2)
-    cedula = models.BigIntegerField()
+    cedula = models.CharField(max_length=20)
     nombre = models.CharField(max_length=150)
     apellido = models.CharField(max_length=150)
     email = models.EmailField(max_length=120)
