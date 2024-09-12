@@ -15,13 +15,16 @@ export function Archivos() {
 
   return (
     <div>
+      <button
+          className="btn1"
+          onClick={() => {
+            navigate("/crear-clientes");
+          }}
+        >
+          Nuevo cliente
+        </button>
       <div className="container border">
-        <h4 className="text-center">Clientes</h4>
-        <button className="btn btn-primary"
-        onClick={()=>{
-          navigate('/crear-clientes')
-        }}
-        >Nuevo cliente</button>
+      <h4 className="text-center">Clientes</h4>{" "}
         <table className="table table-hover">
           <thead className="table-dark">
             <tr>
@@ -36,16 +39,23 @@ export function Archivos() {
             {clientes.map((cliente) => (
               <tr key={cliente.id}>
                 <td>{cliente.cedula}</td>
-                <td>{cliente.nombre} {cliente.apellido}</td>
                 <td>
-                  {cliente.identificacion === "04" ? "RUC" :
-                  cliente.identificacion === "05" ? "Cédula" :
-                  cliente.identificacion === "06" ? "Pasaporte" :
-                  cliente.identificacion === "07" ? "Consumidor Final" :
-                  cliente.identificacion === "08" ? "ID exterior" :
-                   cliente.identificacion}
+                  {cliente.nombre} {cliente.apellido}
                 </td>
-                <td>{cliente.estado ? "Activo": "Desactivado"}</td>
+                <td>
+                  {cliente.identificacion === "04"
+                    ? "RUC"
+                    : cliente.identificacion === "05"
+                    ? "Cédula"
+                    : cliente.identificacion === "06"
+                    ? "Pasaporte"
+                    : cliente.identificacion === "07"
+                    ? "Consumidor Final"
+                    : cliente.identificacion === "08"
+                    ? "ID exterior"
+                    : cliente.identificacion}
+                </td>
+                <td>{cliente.estado ? "Activo" : "Desactivado"}</td>
               </tr>
             ))}
           </tbody>

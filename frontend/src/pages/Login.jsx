@@ -16,35 +16,42 @@ export const Login = () => {
             await login(username, password);
             navigate('/archivos');
         } catch (err) {
-            setError(err.error || 'Usuario o Contrasena invalidos');
+            setError(err.error || 'Usuario o Contraseña invalidos');
         }
     }
 
     return (
-        <form onSubmit={handleLogin}>
-        <div>
-            <label>Username:</label>
-            <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                autoComplete="username" 
-            />
+        <div className="login-container">
+      <form onSubmit={handleLogin} className="login-form">
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+            className="form-control"
+          />
         </div>
-        <div>
-            <label>Password:</label>
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password" 
-            />
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            className="form-control"
+          />
         </div>
-        <button type="submit">Login</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-       <p>¿No tienes cuenta? Por favor <Link to='/registro'>Registrarse</Link></p>
-
-    </form>
+        <button type="submit" className="submit-button">Login</button>
+        {error && <p className="error-message">{error}</p>}
+        <p className="signup-link">
+          ¿No tienes cuenta? Por favor <Link to='/registro'>Registrarse</Link>
+        </p>
+      </form>
+    </div>
     
     );
 };

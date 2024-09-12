@@ -22,6 +22,7 @@ export function Registro() {
     }
 
   return (
+    <div className="login-container">
     <form onSubmit={handleRegistro}>
         <div>
             <label htmlFor="">Email</label>
@@ -51,5 +52,6 @@ export function Registro() {
         <button type="submit">Registrarse</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
+    </div>
   )
 }

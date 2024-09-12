@@ -1,29 +1,255 @@
-.container{
+.container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-top: 10px;
+    margin-top: 20px; 
+    width: 100%;
+    max-width: 1600px;
+    height: auto;
+    padding: 20px; 
+    box-sizing: none;
+    border: none;
+    
 }
-.titulo{
+
+.text-center {
+    width: 100%;
+    text-align: center; 
+}
+
+.table-dark {
+    width: 80%; 
+    border-collapse: collapse; 
+    background-color: #343a40; 
+    color: white; 
+}
+
+.table-dark th, .table-dark td {
+    padding: 10px; 
     text-align: center;
+    border: 1px solid #495057; 
+    margin-top: 20px;
 }
 
-.personaje1{
-    width: 25%;
+.btn1 {
+    width: auto; 
+    max-width: 150px; 
+    padding: 8px 16px; 
+    background-color: black;
+    color: white;
+    border: none; 
+    text-align: center; 
+    display: inline-block; 
+    margin-left: 1520px; 
+    margin-right: 0; 
+    margin-top: 20px; 
+    cursor: pointer; 
+    font-size: 14px; 
+    border-radius: 4px; /* Agrega bordes redondeados opcionalmente */
+    vertical-align: middle; /* Alinea verticalmente el botón si está en línea con otros elementos */
 }
-.personaje2{
-    width: 25%;
-    padding-left: 30px;
-}
-.personaje3{
-    width: 25%;
-    padding-left: 30px;
+/* ClientesForm*/
+.container2 {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    padding: 20px; 
+    background-color: #f8f9fa; 
 }
 
-.imagen{
-    width: 350px;
+.form-container {
+    background: #fff; /* Color de fondo del formulario */
+    padding: 20px; /* Espaciado interno del formulario */
+    border-radius: 8px; /* Bordes redondeados del formulario */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil alrededor del formulario */
+    width: 100%; /* Asegura que el formulario ocupe todo el ancho disponible */
+    max-width: 600px; /* Ancho máximo del formulario */
 }
-.imagen3{
-    width: 400px;
-    height: 500px;
+
+.form-group {
+    margin-bottom: 1rem; 
 }
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem; /* Espacio debajo de la etiqueta */
+}
+
+.form-control {
+    width: 100%; /* Asegura que los campos de entrada ocupen todo el ancho de su contenedor */
+    padding: 0.5rem; /* Espaciado interno de los campos de entrada */
+    border: 1px solid #ced4da; /* Borde de los campos de entrada */
+    border-radius: 4px; /* Bordes redondeados de los campos de entrada */
+}
+
+.form-check {
+    margin: 0.5rem 0; /* Espacio alrededor del checkbox */
+}
+
+.submit-btn {
+    background-color: #0f0f0f; 
+    color: #fff; 
+    border: none; 
+    padding: 0.75rem 1.5rem; 
+    border-radius: 4px; 
+    font-size: 1rem; 
+    cursor: pointer; 
+    display: block; 
+    margin-top: 1rem; 
+    transition: background-color 0.2s; 
+}
+
+/* PAGINA DE INICIO*/
+.inicio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido horizontalmente */
+    padding: 20px;
+    background-color: #f0f0f0; /* Color de fondo general */
+}
+
+/* Estilos para el encabezado */
+.header {
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+/* Estilos para la navegación */
+.nav {
+    margin-bottom: 20px;
+}
+
+.nav-list {
+    list-style-type: none; /* Elimina los puntos de la lista */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px; /* Espacio entre los elementos de la lista */
+}
+
+.nav-item {
+    margin: 0;
+}
+
+.nav-link {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    color: #1b65af; /* Color del texto del enlace */
+    font-size: 1.1rem;
+}
+
+.nav-link:hover {
+    text-decoration: underline; /* Subrayado al pasar el mouse */
+}
+
+/* Estilos para el párrafo */
+.intro-text {
+    max-width: 800px; /* Limita el ancho del párrafo para mejor legibilidad */
+    text-align: center;
+    line-height: 1.6; /* Mejora la legibilidad del texto */
+    margin-bottom: 20px;
+}
+
+/* Estilos para la imagen principal */
+.main-image {
+    max-width: 100%; /* Asegura que la imagen no se desborde del contenedor */
+    height: auto; /* Mantiene las proporciones de la imagen */
+    margin-bottom: 20px;
+}
+
+/* Estilos para el contenedor del mapa */
+.map-container {
+    margin-top: 20px;
+}
+
+/* Estilos para el iframe del mapa */
+.map-iframe {
+    border: 0;
+    max-width: 100%; /* Asegura que el iframe no se desborde del contenedor */
+}
+
+/* LOGIN*/
+
+/* Estilos generales para el contenedor del formulario */
+.login-container {
+    display: flex;
+    justify-content: center; /* Centra el formulario horizontalmente */
+    align-items: center; /* Centra el formulario verticalmente */
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    background-color: #f7f7f7; /* Color de fondo de la página */
+    padding: 20px;
+  }
+  
+  /* Estilos para el formulario */
+  .login-form {
+    background-color: #fff; /* Color de fondo del formulario */
+    padding: 20px;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra del formulario */
+    width: 100%;
+    max-width: 400px; /* Ancho máximo del formulario */
+  }
+  
+  /* Estilos para los grupos de campos */
+  .form-group {
+    margin-bottom: 15px; /* Espacio entre los campos */
+  }
+  
+  /* Estilos para las etiquetas */
+  .form-group label {
+    display: block;
+    margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Estilos para los campos de entrada */
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px; /* Bordes redondeados de los campos */
+    box-sizing: border-box; /* Incluye padding y border en el width */
+  }
+  
+  /* Estilos para el botón de envío */
+  .submit-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px; /* Bordes redondeados del botón */
+    background-color: #0a0a0a; /* Color de fondo del botón */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Transición para el color de fondo */
+  }
+  
+  /* Estilos para el mensaje de error */
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  /* Estilos para el enlace de registro */
+  .signup-link {
+    margin-top: 15px;
+    text-align: center; /* Centra el texto del enlace */
+  }
+  
+  .signup-link a {
+    color: #007bff; /* Color del enlace */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline; /* Subrayado al pasar el mouse */
+  }
+  
+  /* REGISTER*/
+
+  
