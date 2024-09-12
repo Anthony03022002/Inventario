@@ -8,7 +8,7 @@ class Clientes(models.Model):
     apellido = models.CharField(max_length=150)
     email = models.EmailField(max_length=120)
     celular = models.CharField(max_length=20)
-    estado = models.BooleanField(default=True)
+    estado = models.BooleanField()
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     class Meta:
         db_table = 'clientes'

@@ -1,4 +1,4 @@
-import { obtenerClientes } from "../api/clientes.api";
+import { obtenerClientes, eliminarClientes } from "../api/clientes.api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 export function Archivos() {
@@ -13,6 +13,19 @@ export function Archivos() {
     cargarClientes();
   }, []);
 
+  const handleEliminarCliente = async (id) => {
+    const confirmar = window.confirm("¿Estás seguro de que deseas eliminar este cliente?");
+    if (confirmar) {
+      try {
+        await eliminarClientes(id);
+        setClientes(clientes.filter(cliente => cliente.id !== id));
+      } catch (error) {
+        console.error("Error eliminando cliente", error);
+      }
+    }
+  };
+  
+
   return (
     <div>
       <button
@@ -24,7 +37,12 @@ export function Archivos() {
           Nuevo cliente
         </button>
       <div className="container border">
-      <h4 className="text-center">Clientes</h4>{" "}
+        <h4 className="text-center">Clientes</h4>
+        <button className="btn btn-primary"
+        onClick={()=>{
+          navigate('/crear-clientes')
+        }}
+        >Nuevo cliente</button>
         <table className="table table-hover">
           <thead className="table-dark">
             <tr>
@@ -43,19 +61,14 @@ export function Archivos() {
                   {cliente.nombre} {cliente.apellido}
                 </td>
                 <td>
-                  {cliente.identificacion === "04"
-                    ? "RUC"
-                    : cliente.identificacion === "05"
-                    ? "Cédula"
-                    : cliente.identificacion === "06"
-                    ? "Pasaporte"
-                    : cliente.identificacion === "07"
-                    ? "Consumidor Final"
-                    : cliente.identificacion === "08"
-                    ? "ID exterior"
-                    : cliente.identificacion}
+                  {cliente.identificacion === "04" ? "RUC" :
+                  cliente.identificacion === "05" ? "Cédula" :
+                  cliente.identificacion === "06" ? "Pasaporte" :
+                  cliente.identificacion === "07" ? "Consumidor Final" :
+                  cliente.identificacion === "08" ? "ID exterior" :
+                   cliente.identificacion}
                 </td>
-                <td>{cliente.estado ? "Activo" : "Desactivado"}</td>
+                <td>{cliente.estado ? "Activo": "Desactivado"}</td>
               </tr>
             ))}
           </tbody>

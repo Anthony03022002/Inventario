@@ -1,21 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { crearProducto } from "../api/productos.api";
+import {
+  crearProducto,
+  obtenerProducto,
+  updateProductos,
+} from "../api/productos.api";
+import { useParams, useNavigate } from "react-router-dom";
 
 export function ProductosForm() {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
   const [productos, setProductos] = useState([]);
   const [mensaje, setMensaje] = useState("");
-
+  const params = useParams();
+const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
-    setProductos((prevProductos) => [...prevProductos, data]);
+    setProductos([...productos, data]);
     reset();
   });
+
+  useEffect(() => {
+    async function leerProductos() {
+      if (params.id) {
+        const res = await obtenerProducto(params.id);
+        setValue("codigo", res.data.codigo);
+        setValue("nombre", res.data.nombre);
+        setValue("descripcion", res.data.descripcion);
+        setValue("precio", res.data.precio);
+        setValue("cantidad_ingresar", res.data.cantidad_ingresar);
+        setValue("stock", res.data.stock);
+        setValue("categoria", res.data.categoria);
+        setValue("fecha_creacion", res.data.fecha_creacion);
+        setValue("proveedor", res.data.proveedor);
+        setValue("estado", res.data.estado);
+      }
+    }
+    leerProductos();
+  }, []);
 
   const enviarProductos = async () => {
     try {
       for (const producto of productos) {
         await crearProducto(producto);
+        navigate('/productos')
       }
       setMensaje("Productos guardados exitosamente");
       setProductos([]);
@@ -34,14 +60,7 @@ export function ProductosForm() {
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Formulario de productos</h1>
-
-      {/* Mensaje de éxito o error */}
-      {mensaje && <div className="alert alert-info">{mensaje}</div>}
-
-      <form
-        onSubmit={onSubmit}
-        className="row g-3 border border-secondary-subtle pb-3 shadow p-3"
-      >
+      <form onSubmit={onSubmit} className="row g-3 border border-secondary-subtle pb-3 shadow p-3">
         <div className="col-md-3">
           <label className="form-label">Código:</label>
           <input
@@ -135,11 +154,13 @@ export function ProductosForm() {
           <button type="submit" className="btn btn-primary">
             Agregar Producto
           </button>
+          {params.id && <button className="btn btn-warning ms-2" onClick={onSubmit}>Editar</button>}
         </div>
       </form>
 
       <div className="container mt-4">
         <h2 className="mb-4">Lista de Productos</h2>
+        
         <table className="table table-striped table-hover">
           <thead className="table text-center">
             <tr>
