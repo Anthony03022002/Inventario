@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { obtenerProductos } from "../api/productos.api";
-import { Link } from "react-router-dom";
+import { obtenerProductos, eliminarProductos } from "../api/productos.api";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Productos() {
   const [productos, setProductos] = useState([]);
   const [selected, setSelected] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function cargarProductos() {
@@ -29,15 +30,30 @@ export function Productos() {
         : [...prevSelected, id]
     );
   };
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (selected.length === 0) {
       alert("No hay productos seleccionados para eliminar.");
       return;
     }
 
-    selected.forEach((id) => {
-      alert(`Producto eliminado con ID: ${id}`);
-    });
+    const confirmDelete = window.confirm(
+      `¿Estás seguro que quieres eliminar ${selected.length} productos?`
+    );
+
+    if (!confirmDelete) return;
+
+    for (let id of selected) {
+      try {
+        await eliminarProductos(id);
+        setProductos((prevProductos) =>
+          prevProductos.filter((producto) => producto.id !== id)
+        );
+      } catch (error) {
+        console.error(`Error eliminando el producto con ID: ${id}`, error);
+      }
+    }
+
+    setSelected([]);
   };
   return (
     <div className="container">
@@ -48,7 +64,9 @@ export function Productos() {
       <button className="btn btn-danger mb-3" onClick={handleDelete}>
         Eliminar Seleccionados
       </button>
-      <Link to='/crear-productos' className="btn btn-primary mb-3">Crear Producto</Link>
+      <Link to="/crear-productos" className="btn btn-primary mb-3">
+        Crear Producto
+      </Link>
       <table className="table table-hover">
         <thead className="table-dark">
           <tr>
@@ -68,6 +86,7 @@ export function Productos() {
             <th>Precio</th>
             <th>Stock</th>
             <th>Estado</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -75,12 +94,12 @@ export function Productos() {
             <tr key={producto.id}>
               <td>
                 <div className="form-check form-switch">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  checked={selected.includes(producto.id)}
-                  onChange={() => handleSelectProduct(producto.id)}
-                />
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={selected.includes(producto.id)}
+                    onChange={() => handleSelectProduct(producto.id)}
+                  />
                 </div>
               </td>
               <td>{producto.id}</td>
@@ -89,6 +108,13 @@ export function Productos() {
               <td>${producto.precio}</td>
               <td>{producto.stock}</td>
               <td>{producto.estado ? "Activo" : "Desactivado"}</td>
+              <td>
+                <button
+                  onClick={()=>{
+                    navigate(`/crear-productos/${producto.id}`)
+                  }}
+                >Editar</button>
+              </td>
             </tr>
           ))}
         </tbody>
