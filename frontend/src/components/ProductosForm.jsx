@@ -14,8 +14,13 @@ export function ProductosForm() {
   const params = useParams();
 const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
-    setProductos([...productos, data]);
-    reset();
+    if (params.id) {
+      updateProductos(params.id, data)
+    navigate('/productos')
+    }else{
+      setProductos([...productos, data]);
+      reset();
+    }
   });
 
   useEffect(() => {
@@ -52,15 +57,16 @@ const navigate = useNavigate();
   };
 
   const eliminarProducto = (index) => {
-    setProductos((prevProductos) =>
-      prevProductos.filter((_, i) => i !== index)
-    );
+    setProductos(productos.filter((_, i) => i !== index));
   };
 
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Formulario de productos</h1>
-      <form onSubmit={onSubmit} className="row g-3 border border-secondary-subtle pb-3 shadow p-3">
+      <form
+        onSubmit={onSubmit}
+        className="row g-3 border border-secondary-subtle pb-3 shadow p-3"
+      >
         <div className="col-md-3">
           <label className="form-label">Código:</label>
           <input
@@ -82,11 +88,13 @@ const navigate = useNavigate();
         <div className="col-md-3">
           <label className="form-label">Descripción:</label>
           <textarea
+            type="text"
             className="form-control"
             placeholder="Descripción del producto"
             {...register("descripcion", { required: true })}
           />
         </div>
+
         <div className="col-md-1">
           <label className="form-label">$Precio:</label>
           <input
@@ -106,6 +114,7 @@ const navigate = useNavigate();
             {...register("cantidad_ingresar", { required: true })}
           />
         </div>
+
         <div className="col-md-1">
           <label className="form-label">Stock:</label>
           <input
@@ -115,6 +124,7 @@ const navigate = useNavigate();
             {...register("stock", { required: true })}
           />
         </div>
+
         <div className="col-md-3">
           <label className="form-label">Categoría:</label>
           <input
@@ -124,6 +134,7 @@ const navigate = useNavigate();
             {...register("categoria", { required: true })}
           />
         </div>
+
         <div className="col-md-2">
           <label className="form-label">Fecha de creación:</label>
           <input
@@ -160,7 +171,7 @@ const navigate = useNavigate();
 
       <div className="container mt-4">
         <h2 className="mb-4">Lista de Productos</h2>
-        
+
         <table className="table table-striped table-hover">
           <thead className="table text-center">
             <tr>

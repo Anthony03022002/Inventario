@@ -128,7 +128,7 @@ export function Ventas() {
               {Object.keys(ventasPorCliente).map((clienteId) => {
                 const cliente = ventasPorCliente[clienteId];
                 const totalCantidad = cliente.ventas.reduce(
-                  (acc, venta) => acc + parseInt(venta.cantidad, 10), // Asegúrate de sumar correctamente
+                  (acc, venta) => acc + parseInt(venta.cantidad, 10), 
                   0
                 );
                 const totalAPagar = cliente.ventas.reduce((acc, venta) => {
