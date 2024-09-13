@@ -23,7 +23,7 @@ export function Registro() {
 
   return (
     <div className="login-container">
-    <form onSubmit={handleRegistro}>
+    <form onSubmit={handleRegistro} className="login-form">
         <div>
             <label htmlFor="">Email</label>
             <input type="email"
@@ -40,16 +40,17 @@ export function Registro() {
                 autoComplete="username" 
             />
         </div>
-        <div>
+        <div className="form-group">
             <label>Password:</label>
             <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password" 
+                 className="form-control"
             />
         </div>
-        <button type="submit">Registrarse</button>
+        <button type="submit" className="submit-button">Registrarse</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
     </div>

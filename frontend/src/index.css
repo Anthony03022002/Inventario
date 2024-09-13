@@ -45,8 +45,8 @@
     margin-top: 20px; 
     cursor: pointer; 
     font-size: 14px; 
-    border-radius: 4px; /* Agrega bordes redondeados opcionalmente */
-    vertical-align: middle; /* Alinea verticalmente el botón si está en línea con otros elementos */
+    border-radius: 4px; 
+    vertical-align: middle; 
 }
 /* ClientesForm*/
 .container2 {
@@ -59,12 +59,12 @@
 }
 
 .form-container {
-    background: #fff; /* Color de fondo del formulario */
-    padding: 20px; /* Espaciado interno del formulario */
-    border-radius: 8px; /* Bordes redondeados del formulario */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil alrededor del formulario */
-    width: 100%; /* Asegura que el formulario ocupe todo el ancho disponible */
-    max-width: 600px; /* Ancho máximo del formulario */
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    width: 100%; 
+    max-width: 600px; 
 }
 
 .form-group {
@@ -77,10 +77,10 @@
 }
 
 .form-control {
-    width: 100%; /* Asegura que los campos de entrada ocupen todo el ancho de su contenedor */
-    padding: 0.5rem; /* Espaciado interno de los campos de entrada */
-    border: 1px solid #ced4da; /* Borde de los campos de entrada */
-    border-radius: 4px; /* Bordes redondeados de los campos de entrada */
+    width: 100%; 
+    padding: 0.5rem; 
+    border: 1px solid #ced4da; 
+    border-radius: 4px; 
 }
 
 .form-check {
@@ -229,13 +229,12 @@
     transition: background-color 0.3s; /* Transición para el color de fondo */
   }
   
-  /* Estilos para el mensaje de error */
   .error-message {
     color: red;
     margin-top: 10px;
   }
   
-  /* Estilos para el enlace de registro */
+
   .signup-link {
     margin-top: 15px;
     text-align: center; /* Centra el texto del enlace */
@@ -250,6 +249,100 @@
     text-decoration: underline; /* Subrayado al pasar el mouse */
   }
   
-  /* REGISTER*/
+  /* FORMULARIO DE CLIENTES */
+/* formulario.css */
 
+.container3 {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  
+  label {
+    font-weight: bold;
+    grid-column: span 1; /* Etiquetas ocupan una columna */
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    grid-column: span 1; /* Campos ocupan una columna */
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  button {
+    grid-column: span 2; /* El botón ocupa ambas columnas */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /*XML*/
+  /* Estilos generales para el contenedor */
+.container4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .form-wrapper {
+    width: 100%;
+    max-width: 600px; /* Ajusta el ancho máximo según tus necesidades */
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre los elementos del formulario */
+  }
+  
+  .form-control {
+    width: 100%;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end; /* Alinea el botón a la derecha */
+  }
+  
+  .btn-submit {
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-submit:hover {
+    background-color: #0056b3;
+  }
+  
   

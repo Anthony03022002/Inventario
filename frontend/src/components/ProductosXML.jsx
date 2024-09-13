@@ -24,10 +24,22 @@ export function ProductosXML() {
   };
 
   return (
-      <form onSubmit={handleSubmit}>
-        <h1>Subir XML</h1>
-          <input type="file" onChange={handleFileChange} accept=".xml" />
-          <button type="submit">Subir XML</button>
-      </form>
+    <div className="container4">
+      <div className="form-wrapper">
+        <form onSubmit={handleSubmit} className="form">
+          <h1>Subir XML</h1>
+          <input
+            className="form-control form-control-lg"
+            type="file"
+            id="formFileLg"
+            onChange={handleFileChange}
+            accept=".xml"
+          />
+          <div className="button-container">
+            <button type="submit" className="btn-submit">Subir XML</button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
-}
+};

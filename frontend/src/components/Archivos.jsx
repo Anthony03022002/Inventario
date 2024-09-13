@@ -38,11 +38,6 @@ export function Archivos() {
         </button>
       <div className="container border">
         <h4 className="text-center">Clientes</h4>
-        <button className="btn btn-primary"
-        onClick={()=>{
-          navigate('/crear-clientes')
-        }}
-        >Nuevo cliente</button>
         <table className="table table-hover">
           <thead className="table-dark">
             <tr>

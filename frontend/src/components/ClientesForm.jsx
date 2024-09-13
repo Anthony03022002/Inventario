@@ -50,57 +50,60 @@ export function ClientesForm() {
   });
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <h1>Formulario clientes</h1>
-        <label htmlFor="">Tipo de identificacion</label>
-        <select
-          {...register("identificacion", { required: true })}
-        >
-          <option value="04">RUC</option>
-          <option value="05">Cedula</option>
-          <option value="06">Pasaporte</option>
-          <option value="07">Consumidor Final</option>
-          <option value="08">ID Exterior</option>
-        </select>
-        <label htmlFor="">#Identificacion</label>
-        <input type="text" {...register("cedula", { required: true })} />
-        <label htmlFor="">Nombre:</label>
-        <input
-          type="text"
-          placeholder="Nombre"
-          {...register("nombre", { required: true })}
-        />
-        <label htmlFor="">Apellido:</label>
-        <input
-          type="text"
-          placeholder="apellido"
-          {...register("apellido", { required: true })}
-        />
-        <label htmlFor="">Email:</label>
-        <input
-          type="email"
-          placeholder="email"
-          {...register("email", { required: true })}
-        />
-        <label htmlFor="">Celular:</label>
-        <input
-          type="number"
-          placeholder="Celular"
-          {...register("celular", { required: true })}
-        />
-        <label htmlFor="">Estado</label>
-        <input
-          type="checkbox"
-          defaultChecked="true"
-          {...register("estado", { required: true })}
-        />
-        <input
-          type="hidden"
-          {...register("user")}
-        />
-        <button type="submit">Guardar Cliente</button>
-      </form>
-    </div>
+    <div className="container3">
+    <form onSubmit={handleSubmit(onSubmit)} >
+      <h1>Formulario clientes</h1>
+      <div className="row mb-3">
+
+        {/* Columna izquierda */}
+        <div className="row mb-3">
+        <div className="col-md-6">
+          <label htmlFor="identificacion">Tipo de identificación</label>
+          <select {...register("identificacion", { required: true })} id="identificacion" className="form-dropdown">
+            <option value="04">RUC</option>
+            <option value="05">Cédula</option>
+            <option value="06">Pasaporte</option>
+            <option value="07">Consumidor Final</option>
+            <option value="08">ID Exterior</option>
+          </select>
+          </div>
+        <div className="col-md-6">          <label htmlFor="cedula">#Identificación</label>
+          <input type="text" {...register("cedula", { required: true })} id="cedula" className="form-control" />
+</div>
+<div className="col-md-6">
+          <label htmlFor="nombre">Nombre</label>
+          <input type="text" placeholder="Nombre" {...register("nombre", { required: true })} id="nombre" className="form-control" />
+</div>
+
+<div className="col-md-6">
+          <label htmlFor="apellido">Apellido</label>
+          <input type="text" placeholder="Apellido" {...register("apellido", { required: true })} id="apellido" className="form-control" />
+</div>
+<div className="col-md-6">
+          <label htmlFor="celular">Celular</label>
+          <input type="varchar" placeholder="Celular" {...register("celular", { required: true })} id="celular" className="form-control" />
+        </div>
+</div>
+
+        {/* Columna derecha */}
+
+        <div className="row mb-3">
+          
+<div className="col-md-6">
+          <label htmlFor="email">Email</label>
+          <input type="email" placeholder="Email" {...register("email", { required: true })} id="email" className="form-control" />
+      </div>
+        </div>
+      </div>
+      <div className="form-check form-switch">
+      <label htmlFor="estado">Estado</label>
+      <input className="form-check-input" type="checkbox" role="switch"defaultChecked="true" {...register("estado", { required: true })} id="flexSwitchCheckDefault" />
+      </div>
+      <input type="hidden" {...register("user")} />
+      <div className="col-md-6">
+      <button type="submit" className="btn btn-dark">Guardar Cliente</button>
+      </div>
+    </form>
+  </div>
   );
 }
