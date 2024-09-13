@@ -20,3 +20,7 @@ comprasApi.interceptors.request.use(config => {
 export const obtenerVentas = () => comprasApi.get('/');
 
 export const crearVenta = (ventas) => comprasApi.post('/', ventas);
+
+export const updateVenta = (id, venta) => comprasApi.put(`/${id}/`, venta)
+
+export const eliminarVenta = (id) => comprasApi.delete(`/${id}`);

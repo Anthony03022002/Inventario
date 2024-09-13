@@ -16,6 +16,14 @@ productosApi.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
+
 export const obtenerProductos = () => productosApi.get('/');
 
+export const obtenerProducto = (id) => productosApi.get(`/${id}/`)
+
 export const crearProducto = (producto) => productosApi.post('/', producto);
+
+export const eliminarProductos = (id) => productosApi.delete(`/${id}`);
+
+export const updateProductos = (id, productos) => productosApi.put(`/${id}/`, productos)
+

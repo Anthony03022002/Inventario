@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
-import { obtenerVentas } from "../api/ventas.api";
+import { obtenerVentas, updateVenta, eliminarVenta } from "../api/ventas.api";
 import { obtenerProductos } from "../api/productos.api";
 import { obtenerClientes } from "../api/clientes.api";
 import { Link } from "react-router-dom";
+import { Modal, Button, Form } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export function Ventas() {
   const [ventas, setVentas] = useState([]);
   const [clientes, setClientes] = useState({});
   const [productos, setProductos] = useState({});
+  const [ventaSeleccionada, setVentaSeleccionada] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [cantidadEditada, setCantidadEditada] = useState(0);
 
   useEffect(() => {
     async function cargarDatos() {
@@ -35,6 +40,59 @@ export function Ventas() {
 
     cargarDatos();
   }, []);
+
+  const handleEliminarVenta = async () => {
+    if (ventaSeleccionada) {
+      try {
+        await eliminarVenta(ventaSeleccionada.id);
+        setVentas((prevVentas) =>
+          prevVentas.filter((venta) => venta.id !== ventaSeleccionada.id)
+        );
+        setModalVisible(false);
+      } catch (error) {
+        console.error("Error al eliminar la venta:", error);
+      }
+    }
+  };
+  
+
+  const handleEditarClick = (venta) => {
+    setVentaSeleccionada(venta);
+    setCantidadEditada(venta.cantidad);
+    setModalVisible(true);
+  };
+
+  const handleCerrarModal = () => {
+    setModalVisible(false);
+    setVentaSeleccionada(null);
+  };
+
+  const handleGuardarCambios = async () => {
+    if (ventaSeleccionada) {
+      try {
+        const datosActualizados = {
+          cliente: ventaSeleccionada.cliente,
+          producto: ventaSeleccionada.producto,
+          fecha: ventaSeleccionada.fecha,
+          cantidad: parseInt(cantidadEditada, 10), // Asegúrate de convertirlo a número
+        };
+
+        await updateVenta(ventaSeleccionada.id, datosActualizados);
+
+        setVentas((prevVentas) =>
+          prevVentas.map((venta) =>
+            venta.id === ventaSeleccionada.id
+              ? { ...venta, cantidad: datosActualizados.cantidad }
+              : venta
+          )
+        );
+
+        setModalVisible(false);
+      } catch (error) {
+        console.error("Error al actualizar la venta:", error);
+      }
+    }
+  };
 
   const ventasPorCliente = ventas.reduce((acc, venta) => {
     const clienteId = venta.cliente;
@@ -70,7 +128,7 @@ export function Ventas() {
               {Object.keys(ventasPorCliente).map((clienteId) => {
                 const cliente = ventasPorCliente[clienteId];
                 const totalCantidad = cliente.ventas.reduce(
-                  (acc, venta) => acc + venta.cantidad,
+                  (acc, venta) => acc + parseInt(venta.cantidad, 10), // Asegúrate de sumar correctamente
                   0
                 );
                 const totalAPagar = cliente.ventas.reduce((acc, venta) => {
@@ -88,6 +146,13 @@ export function Ventas() {
                         {cliente.ventas.map((venta) => (
                           <li key={venta.id} className="list-group-item ">
                             {productos[venta.producto]?.nombre || "Cargando..."}
+                            <Button
+                              className="ms-2"
+                              variant="primary"
+                              onClick={() => handleEditarClick(venta)}
+                            >
+                              Editar
+                            </Button>
                           </li>
                         ))}
                       </ul>
@@ -125,6 +190,36 @@ export function Ventas() {
       ) : (
         <p className="text-center">No hay ventas disponibles.</p>
       )}
+      <Modal show={modalVisible} onHide={handleCerrarModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Venta</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {ventaSeleccionada && (
+            <Form>
+              <Form.Group controlId="formCantidad">
+                <Form.Label>Cantidad</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={cantidadEditada}
+                  onChange={(e) => setCantidadEditada(e.target.value)}
+                />
+              </Form.Group>
+            </Form>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCerrarModal}>
+            Cerrar
+          </Button>
+          <Button variant="danger" onClick={handleEliminarVenta}>
+            Eliminar
+          </Button>
+          <Button variant="primary" onClick={handleGuardarCambios}>
+            Guardar cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
