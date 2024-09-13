@@ -79,7 +79,6 @@ export function VentasForm() {
         cantidad: compra.cantidad,
         fecha: fechaCompra,
       };
-      console.log("Datos enviados:", data);
       return crearVenta(data);
     });
 
@@ -89,7 +88,7 @@ export function VentasForm() {
         const clienteNombre = clientes.find(
           (c) => c.id === parseInt(clienteSeleccionado)
         ).nombre;
-        generarFacturaPDF(clienteNombre, compras, productos);
+        // generarFacturaPDF(clienteNombre, compras, productos);
         setCompras([]);
         setClienteSeleccionado("");
       })
