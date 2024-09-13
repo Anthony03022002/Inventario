@@ -13,6 +13,7 @@ import { ProductosForm } from "./components/ProductosForm";
 import { Navegacion } from "./pages/Navegacion";
 import { Perfil } from "./pages/Perfil";
 import { ClientesForm } from "./components/ClientesForm";
+import { ProductosExcel } from "./components/ProductosExcel";
 function App() {
   return (
     <BrowserRouter>
@@ -92,6 +93,15 @@ function App() {
             <RutasPrivadas>
               <Navegacion />
               <ProductosXML />
+            </RutasPrivadas>
+          }
+        />
+        <Route
+          path="/crear-excel"
+          element={
+            <RutasPrivadas>
+              <Navegacion />
+              <ProductosExcel />
             </RutasPrivadas>
           }
         />

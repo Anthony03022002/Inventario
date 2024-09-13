@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { obtenerProductos, eliminarProductos } from "../api/productos.api";
 import { Link, useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 export function Productos() {
   const [productos, setProductos] = useState([]);
@@ -14,6 +15,25 @@ export function Productos() {
     }
     cargarProductos();
   }, []);
+
+  const handleExportToExcel = () => {
+    const data = productos.map((producto) => ({
+      ID: producto.id,
+      Codigo: producto.codigo,
+      Nombre: producto.nombre,
+      Precio: producto.precio,
+      Stock: producto.stock,
+      Estado: producto.estado ? "Activo" : "Desactivado",
+    }));
+
+    const workbook = XLSX.utils.book_new();
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Productos");
+
+    XLSX.writeFile(workbook, "productos.xlsx");
+  };
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -61,6 +81,11 @@ export function Productos() {
       <Link to="/crear-xml" className="btn btn-primary mb-3">
         Subir XML
       </Link>
+      <Link to="/crear-excel" className="btn btn-success mb-3">Importar de excel</Link>
+      <button className="btn btn-success mb-3" onClick={handleExportToExcel}>
+        Exportar a Excel
+      </button>
+
       <button className="btn btn-danger mb-3" onClick={handleDelete}>
         Eliminar Seleccionados
       </button>
@@ -110,10 +135,12 @@ export function Productos() {
               <td>{producto.estado ? "Activo" : "Desactivado"}</td>
               <td>
                 <button
-                  onClick={()=>{
-                    navigate(`/crear-productos/${producto.id}`)
+                  onClick={() => {
+                    navigate(`/crear-productos/${producto.id}`);
                   }}
-                >Editar</button>
+                >
+                  Editar
+                </button>
               </td>
             </tr>
           ))}
