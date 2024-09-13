@@ -32,11 +32,11 @@ export function ClientesForm() {
 
   useEffect(() => {
     if (identificacion === "07") {
-      setValue("cedula", "9999999999");
-      setValue("nombre", "consumidor");
-      setValue("apellido", "final");
-      setValue("email", "consumidor@gmail.com");
-      setValue("celular", "999999999");
+      setValue('cedula', '9999999999'); 
+      setValue('nombre', 'consumidor'); 
+      setValue('apellido', 'final'); 
+      setValue('email', 'consumidor@gmail.com'); 
+      setValue('celular', '999999999'); 
     }
   }, [identificacion, setValue]);
 
@@ -49,28 +49,14 @@ export function ClientesForm() {
     navigate("/archivos");
   });
 
-  useEffect(() => {
-    async function leerClientes() {
-      if (params.id) {
-        const res = await obtenerCliente(params.id);
-        setValue("identificacion", res.data.identificacion);
-        setValue("cedula", res.data.cedula);
-        setValue("nombre", res.data.nombre);
-        setValue("apellido", res.data.apellido);
-        setValue("email", res.data.email);
-        setValue("celular", res.data.celular);
-        setValue("estado", !!res.data.estado);
-      }
-    }
-    leerClientes();
-  }, []);
-
   return (
     <div>
       <form onSubmit={onSubmit}>
         <h1>Formulario clientes</h1>
         <label htmlFor="">Tipo de identificacion</label>
-        <select {...register("identificacion", { required: true })}>
+        <select
+          {...register("identificacion", { required: true })}
+        >
           <option value="04">RUC</option>
           <option value="05">Cedula</option>
           <option value="06">Pasaporte</option>
@@ -99,20 +85,20 @@ export function ClientesForm() {
         />
         <label htmlFor="">Celular:</label>
         <input
-          type="text"
-          pattern="\d*"
-          inputMode="numeric"
+          type="number"
           placeholder="Celular"
           {...register("celular", { required: true })}
         />
         <label htmlFor="">Estado</label>
         <input
           type="checkbox"
-          {...register("estado")}
-          checked={watch("estado") || false}
-          onChange={(e) => setValue("estado", e.target.checked)}
+          defaultChecked="true"
+          {...register("estado", { required: true })}
         />
-        <input type="hidden" {...register("user")} />
+        <input
+          type="hidden"
+          {...register("user")}
+        />
         <button type="submit">Guardar Cliente</button>
       </form>
     </div>

@@ -1,26 +1,19 @@
 import { Link } from "react-router-dom";
-
 export function Inicio() {
   return (
-    <div>
-      <h1>Pagina de Inicio</h1>
-      <nav>
-        <ul>
-          <li>
-            <a href="#">Inicio</a>
-          </li>
-          <li>
-            <a href="#">Proyectos</a>
-          </li>
-          <li>
-            <a href="#">Contacto</a>
-          </li>
-          <li>
-            <Link to='/login' >Login</Link>
-          </li>
+    <div className="inicio-container">
+      <header className="header">
+        <h1>Pagina de Inicio</h1>
+      </header>
+      <nav className="nav">
+        <ul className="nav-list">
+          <li className="nav-item"><Link to="/" className="nav-link">Inicio</Link></li>
+          <li className="nav-item"><Link to="/proyectos" className="nav-link">Proyectos</Link></li>
+          <li className="nav-item"><Link to="/contacto" className="nav-link">Contacto</Link></li>
+          <li className="nav-item"><Link to="/login" className="nav-link">Login</Link></li>
         </ul>
       </nav>
-      <p>
+      <p className="intro-text">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
         veritatis recusandae delectus fugiat omnis excepturi sint soluta facilis
         dolores, optio eaque labore! Sint optio facilis voluptate eos, velit
@@ -35,19 +28,21 @@ export function Inicio() {
       </p>
       <img
         src="https://concepto.de/wp-content/uploads/2015/04/inventario-e1548898364548.jpg"
-        alt=""
+        alt="Inventario"
+        className="main-image"
       />
-       <div>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d3354.9750800803877!2d-78.53982964110389!3d-0.30916587778324606!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sec!4v1723221839020!5m2!1ses!2sec"
-        width="600"
-        height="450"
-        style={{ border: 0 }}
-        allowFullScreen=""
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      ></iframe>
-    </div>
+      <div className="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d3354.9750800803877!2d-78.53982964110389!3d-0.30916587778324606!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sec!4v1723221839020!5m2!1ses!2sec"
+          width="600"
+          height="450"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="map-iframe"
+        ></iframe>
+      </div>
     </div>
   );
 }

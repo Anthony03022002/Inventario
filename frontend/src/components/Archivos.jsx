@@ -28,16 +28,21 @@ export function Archivos() {
 
   return (
     <div>
-      <div className="container border">
-        <h4 className="text-center">Clientes</h4>
-        <button
-          className="btn btn-primary"
+      <button
+          className="btn1"
           onClick={() => {
             navigate("/crear-clientes");
           }}
         >
           Nuevo cliente
         </button>
+      <div className="container border">
+        <h4 className="text-center">Clientes</h4>
+        <button className="btn btn-primary"
+        onClick={()=>{
+          navigate('/crear-clientes')
+        }}
+        >Nuevo cliente</button>
         <table className="table table-hover">
           <thead className="table-dark">
             <tr>
@@ -56,29 +61,14 @@ export function Archivos() {
                   {cliente.nombre} {cliente.apellido}
                 </td>
                 <td>
-                  {cliente.identificacion === "04"
-                    ? "RUC"
-                    : cliente.identificacion === "05"
-                    ? "Cédula"
-                    : cliente.identificacion === "06"
-                    ? "Pasaporte"
-                    : cliente.identificacion === "07"
-                    ? "Consumidor Final"
-                    : cliente.identificacion === "08"
-                    ? "ID exterior"
-                    : cliente.identificacion}
+                  {cliente.identificacion === "04" ? "RUC" :
+                  cliente.identificacion === "05" ? "Cédula" :
+                  cliente.identificacion === "06" ? "Pasaporte" :
+                  cliente.identificacion === "07" ? "Consumidor Final" :
+                  cliente.identificacion === "08" ? "ID exterior" :
+                   cliente.identificacion}
                 </td>
-                <td>{cliente.estado ? "Activo" : "Desactivado"}</td>
-                <td>
-                  <button
-                    onClick={()=>{
-                      navigate(`/crear-clientes/${cliente.id}`)
-                    }}
-                  >Editar</button>
-                  <button onClick={() => handleEliminarCliente(cliente.id)}>
-                    Eliminar
-                  </button>
-                </td>
+                <td>{cliente.estado ? "Activo": "Desactivado"}</td>
               </tr>
             ))}
           </tbody>
