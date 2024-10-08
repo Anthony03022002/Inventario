@@ -88,7 +88,7 @@ export function VentasForm() {
         const clienteNombre = clientes.find(
           (c) => c.id === parseInt(clienteSeleccionado)
         ).nombre;
-        // generarFacturaPDF(clienteNombre, compras, productos);
+        generarFacturaPDF(clienteNombre, compras, productos);
         setCompras([]);
         setClienteSeleccionado("");
       })

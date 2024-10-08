@@ -54,7 +54,6 @@ export function Ventas() {
       }
     }
   };
-  
 
   const handleEditarClick = (venta) => {
     setVentaSeleccionada(venta);
@@ -74,7 +73,7 @@ export function Ventas() {
           cliente: ventaSeleccionada.cliente,
           producto: ventaSeleccionada.producto,
           fecha: ventaSeleccionada.fecha,
-          cantidad: parseInt(cantidadEditada, 10), // Asegúrate de convertirlo a número
+          cantidad: parseInt(cantidadEditada, 10),
         };
 
         await updateVenta(ventaSeleccionada.id, datosActualizados);
@@ -112,11 +111,11 @@ export function Ventas() {
         </Link>
       </div>
       {ventas.length > 0 ? (
-        <div className="table">
-          <table className="table table-striped table-bordered table-hover">
-            <thead className="thead-dark text-center">
-              <tr>
-                <th>Cliente</th>
+        <div className="container">
+          <table className="table table-hover">
+            <thead>
+            <tr>
+                <th>Clientes</th>
                 <th>Productos</th>
                 <th>Unidades</th>
                 <th>Precio</th>
@@ -137,7 +136,7 @@ export function Ventas() {
                 }, 0);
                 return (
                   <tr key={clienteId}>
-                    <td className="text-center">
+                    <td className="">
                       {cliente?.nombre || "Cargando..."}{" "}
                       {cliente?.apellido || ""}
                     </td>
@@ -157,7 +156,7 @@ export function Ventas() {
                         ))}
                       </ul>
                     </td>
-                    <td className="text-center">
+                    <td className="">
                       <ul className="">
                         {cliente.ventas.map((venta) => (
                           <li key={venta.id} className="list-group-item ">
@@ -166,7 +165,7 @@ export function Ventas() {
                         ))}
                       </ul>
                     </td>
-                    <td className="text-center">
+                    <td className="">
                       <ul className="">
                         {cliente.ventas.map((venta) => (
                           <li key={venta.id} className="list-group-item ">
@@ -175,8 +174,8 @@ export function Ventas() {
                         ))}
                       </ul>
                     </td>
-                    <td className="text-center">{totalCantidad}</td>
-                    <td className="text-center">
+                    <td className="">{totalCantidad}</td>
+                    <td className="">
                       <span className="font-weight-bold text-success">
                         ${totalAPagar.toFixed(2)}
                       </span>
